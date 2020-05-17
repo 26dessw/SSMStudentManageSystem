@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sise.dao.UserDao">
+
+
+
+<!-- 这里会自动将传来的map对象进行解析，直接使用map里面的参数即可 -->
+
+    <!--查询管理员用户，用于登录  -->
+  	<select id="findByUserName" parameterType="String" resultType="User">
+  		select * from user where username = #{username}
+  	</select>
+  	
+  	<!--添加管理员用户  -->
+  	<update id="add" parameterType="User">
+  	insert into user(id,username,password) values(null,#{username},#{password}) 
+  	</update>
+  	
+  	<!--查询管理员用户列表  -->
+  	<select id="findList" parameterType="Map" resultType="User">
+  		select * from user where username like #{username} limit #{offset},#{pageSize}
+  	</select>
+  	
+  	<!--查询数据的条数  -->
+  	<select id="getTotal" parameterType="Map" resultType="int">
+  		select count(id) from user where username like #{username} 
+  	</select>
+  	
+  	
+  	<!--修改管理员用户信息  -->
+  	<update id="edit" parameterType="User">
+  	update user set username=#{username},password=#{password} where id=#{id} 
+  	</update>
+  	
+    <!--批量删除管理员用户 -->
+  	<update id="delete" parameterType="String">
+  	delete from user where id in (${value}) 
+  	</update>
+  	
+</mapper>

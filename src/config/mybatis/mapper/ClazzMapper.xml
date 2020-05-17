@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sise.dao.ClazzDao">
+
+
+<!-- 根据班级名字和年级进行模糊查询 -->
+  	<select id="findList" parameterType="Map" resultType="Clazz">
+  		select * from clazz where 1=1 
+  		<if test="name !=null">
+  			and name like #{name} 
+  		</if>
+  		<if test="gradeId !=null">
+  			and gradeId = #{gradeId} 
+  		</if>
+  		limit #{offset},#{pageSize}
+  	</select>
+  	
+  	
+  	<!-- 查询clazz表的所有数据 -->
+  	<select id="findAll" resultType="Clazz">
+  		select * from clazz
+  	</select>
+  	
+  	
+  	<!-- 根据查询条件 查出符合条件的数据条数 -->
+  	<select id="getTotal" parameterType="Map" resultType="Integer">
+  		select count(id) from clazz where 1=1 
+  		<if test="name !=null">
+  			and name like #{name} 
+  		</if>
+  		<if test="gradeId !=null">
+  			and gradeId = #{gradeId} 
+  		</if>
+  	</select>
+  	
+  	
+  	<!--添加一条班级数据  -->
+  	<update id="add" parameterType="Clazz">
+  		insert into clazz(id,gradeId,name,remark) values(null,#{gradeId},#{name},#{remark})
+  	</update>
+  	
+  	
+  	<!--根据班级id修改班级信息  -->
+  	<update id="edit" parameterType="Clazz">
+  		update clazz set name = #{name},gradeId = #{gradeId},remark = #{remark} where id = #{id}
+  	</update>
+  	
+  	 	<!--根据班级id删除班级信息  -->
+  	<update id="delete" parameterType="String">
+  		delete from clazz where id in (${value})
+  	</update>
+  	
+  	
+</mapper>
